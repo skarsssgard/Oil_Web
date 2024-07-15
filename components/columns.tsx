@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
 import { ArrowUpDown } from "lucide-react";
 
 export type Logging = {
-  tanggal: string;
-  waktu: string;
-  volume: number;
+    tanggal: string;
+    waktu: string;
+    volume: number;
 };
 
 export const columns: ColumnDef<Logging>[] = [
@@ -36,6 +36,4 @@ export const columns: ColumnDef<Logging>[] = [
         accessorKey: "volume",
         header: "Volume (Liter)",
     },
-    
-    
 ];
