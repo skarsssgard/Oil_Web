@@ -9,53 +9,6 @@ export type Logging = {
     waktu: string;
     volume: number;
 };
-export const data = [
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-    {
-        tanggal: "2021-10-10",
-        waktu: "10:00",
-        volume: 10,
-    },
-];
 
 export const columns: ColumnDef<Logging>[] = [
     {

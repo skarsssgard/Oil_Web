@@ -2,18 +2,29 @@
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/data-tabel";
 import { columns } from "@/components/columns";
-import { useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { firebase_DB } from "@/Config/FirebaseConfig";
+import { Separator } from "@/components/ui/separator";
+import { useEffect, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-export default function Home() {
+const Home = () => {
   const [pengukuran, setPengukuran] = useState<any[]>([]);
+  const [isPengukuran, setIsPengukuran] = useState<boolean>(true);
+
+  const getDate = (date: string) => {
+    const [year, month, day] = date.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
 
   const getPengukurang = () => {
-    const db = collection(firebase_DB, "logging");
+    const db = collection(firebase_DB, "pengukuran");
     const unsubscribe = onSnapshot(db, (docRef) => {
       const data = docRef.docs.map(doc => ({
         id: doc.id,
+        tanggal: getDate(doc.data().tanggal),
         ...doc.data(),
       }));
       setPengukuran(data);
@@ -27,36 +38,28 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
-      <div className="mx-auto py-auto">
-        <div className="flex justify-between p-15 py-10 pb-5 items-center border-y-2 border-black mr-10 ml-10 border-t-0">
-          <h1 className="text-5xl font-bold tracking-tight">
-            UCO Monitoring
-          </h1>
+    <main className="flex min-h-screen flex-col items-center p-10">
+      <h1 className="text-center text-5xl font-bold">
+        UCO Monitoring
+      </h1>
+      <Separator className="mt-4 mb-4" />
+      <div className="w-full flex justify-center gap-4">
+        <div className="flex flex-col gap-4">
+          <Button variant="outline" className={cn("w-48 h-32 text-lg", {
+            "bg-green-600 text-white": isPengukuran,
+          })}>
+            Pengukuran
+          </Button>
+          <Button variant="outline" className="w-48 h-32 text-lg">
+            Penampungan
+          </Button>
         </div>
-        <div className="flex justify-center">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight py-5">
-              Tandon Pengukuran
-            </h2>
-          </div>
-        </div>
-        <div className="px-20">
-          <div className="grid grid-rows-2 grid-flow-col gap-4">
-            <div className="flex justify-center">
-              <Button variant="outline" className="w-48 h-48 text-2xl border-2 border-black bg-green-600">
-                Pengukuran
-              </Button>
-            </div>
-            <div className="flex justify-center">
-              <Button type="button" variant="outline" className="flex justify-right w-48 h-48 text-2xl border-2 border-black">
-                Penampungan
-              </Button>
-            </div>
-            <DataTable columns={columns} data={pengukuran}></DataTable>
-          </div>
-        </div>
+        <Card className="w-1/2 p-4 rounded-sm">
+          <DataTable title="pengukuran" columns={columns} data={pengukuran}></DataTable>
+        </Card>
       </div>
-    </main>
+    </main >
   );
 }
+
+export default Home;
