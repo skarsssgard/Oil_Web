@@ -5,10 +5,57 @@ import { Button } from "./ui/button";
 import { ArrowUpDown } from "lucide-react";
 
 export type Logging = {
-  tanggal: string;
-  waktu: string;
-  volume: number;
+    tanggal: string;
+    waktu: string;
+    volume: number;
 };
+export const data = [
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+    {
+        tanggal: "2021-10-10",
+        waktu: "10:00",
+        volume: 10,
+    },
+];
 
 export const columns: ColumnDef<Logging>[] = [
     {
@@ -36,6 +83,4 @@ export const columns: ColumnDef<Logging>[] = [
         accessorKey: "volume",
         header: "Volume (Liter)",
     },
-    
-    
 ];
