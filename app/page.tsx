@@ -1,19 +1,13 @@
-"use client";
 import { Button } from "@/components/ui/button"
-
-import {
-  collection,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
-import { firebase_DB } from "@/Config/FirebaseConfig";
 import { DataTable } from "@/components/data-tabel";
-import { Logging, columns, data } from "@/components/columns";
-import { useEffect, useState } from "react";
+import { columns, data } from "@/components/columns";
+import { getLoggingdata } from "@/actions/actions";
 
-export default function Home() {
+export default async function Home() {
+
+  const data = getLoggingdata();
+  console.log(data);
+
   return (
     <nav>
       <div className="mx-auto py-auto">
@@ -41,7 +35,7 @@ export default function Home() {
                 Penampungan
               </Button>
             </div>
-            <DataTable columns={columns} data={data}></DataTable>
+            <DataTable columns={columns} data={[]}></DataTable>
           </div>
         </div>
       </div>
