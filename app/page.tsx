@@ -1,15 +1,33 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/data-tabel";
-import { columns, data } from "@/components/columns";
-import { getLoggingdata } from "@/actions/actions";
+import { columns } from "@/components/columns";
+import { useEffect, useState } from "react";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { firebase_DB } from "@/Config/FirebaseConfig";
 
-export default async function Home() {
+export default function Home() {
+  const [pengukuran, setPengukuran] = useState<any[]>([]);
 
-  const data = getLoggingdata();
-  console.log(data);
+  const getPengukurang = () => {
+    const db = collection(firebase_DB, "logging");
+    const unsubscribe = onSnapshot(db, (docRef) => {
+      const data = docRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPengukuran(data);
+    });
+
+    return () => unsubscribe();
+  };
+
+  useEffect(() => {
+    getPengukurang();
+  }, []);
 
   return (
-    <nav>
+    <main>
       <div className="mx-auto py-auto">
         <div className="flex justify-between p-15 py-10 pb-5 items-center border-y-2 border-black mr-10 ml-10 border-t-0">
           <h1 className="text-5xl font-bold tracking-tight">
@@ -35,10 +53,10 @@ export default async function Home() {
                 Penampungan
               </Button>
             </div>
-            <DataTable columns={columns} data={[]}></DataTable>
+            <DataTable columns={columns} data={pengukuran}></DataTable>
           </div>
         </div>
       </div>
-    </nav>
+    </main>
   );
 }
