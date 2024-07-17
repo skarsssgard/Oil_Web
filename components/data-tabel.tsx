@@ -27,15 +27,16 @@ import { useState } from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pageSize?: number;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    pageSize,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([{ id: "tanggal", desc: true }]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-//   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
       data,
@@ -46,10 +47,15 @@ export function DataTable<TData, TValue>({
       getSortedRowModel: getSortedRowModel(),
       onColumnFiltersChange: setColumnFilters,
       getFilteredRowModel: getFilteredRowModel(),
+      initialState: {
+        pagination: {
+            pageIndex: 0,
+            pageSize: pageSize || 5,
+        },
+    },
       state: {
         sorting,
         columnFilters,
-        // pagination,
       },
   });
 

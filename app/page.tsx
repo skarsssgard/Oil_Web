@@ -18,7 +18,7 @@ import {
 import { firebase_DB } from "@/Config/FirebaseConfig";
 import { DataTable } from "@/components/data-tabel";
 import { Logging, columns } from "@/components/columns";
-import { format} from "date-fns";
+import { format, parse } from "date-fns";
 
 export default function Home() {
   const [data, setData] = useState<Logging[]>();
@@ -33,8 +33,9 @@ export default function Home() {
         const subs = onSnapshot(filter, (snapshot) => {
             const data: Logging[] = snapshot.docs.map((doc) => {
                 const docData = doc.data();
+                const parsedDate = parse(docData.tanggal, "d-M-yyyy", new Date());
                 return {
-                    tanggal: docData.tanggal,
+                    tanggal: format(parsedDate, "dd-MM-yyyy"),
                     waktu: docData.waktu,
                     volume : docData.volume,
                 };
@@ -44,7 +45,7 @@ export default function Home() {
         return () => {
           subs();
       };
-      });
+      }, []);
   return (
     <nav>
       <div className="mx-auto py-auto">

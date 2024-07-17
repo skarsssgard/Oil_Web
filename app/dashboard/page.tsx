@@ -19,6 +19,7 @@ import {
 import { firebase_DB } from "@/Config/FirebaseConfig";
 import { DataTable } from "@/components/data-tabel";
 import { Logging, columns } from "@/components/columns";
+import { format, parse } from "date-fns";
 
 export default function Penampungan() {
   const [data, setData] = useState<Logging[]>();
@@ -33,8 +34,9 @@ export default function Penampungan() {
         const subs = onSnapshot(filter, (snapshot) => {
             const data: Logging[] = snapshot.docs.map((doc) => {
                 const docData = doc.data();
+                const parsedDate = parse(docData.tanggal, "d-M-yyyy", new Date());
                 return {
-                    tanggal: docData.tanggal,
+                    tanggal: format(parsedDate, "dd-MM-yyyy"),
                     waktu: docData.waktu,
                     volume : docData.volume,
                 };
@@ -44,7 +46,7 @@ export default function Penampungan() {
         return () => {
           subs();
       };
-      });
+      }, []);
 
   return (
     <nav>
