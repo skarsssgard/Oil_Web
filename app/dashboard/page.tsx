@@ -30,14 +30,16 @@ export default function Penampungan() {
 
   useEffect(() => {
     const Ref = collection(firebase_DB, "penampungan");
-    const filter = query(Ref,  orderBy("tanggal", "desc"));
+    const filter = query(Ref,  orderBy("tanggal", "desc"), orderBy("waktu", "desc"));
         const subs = onSnapshot(filter, (snapshot) => {
             const data: Logging[] = snapshot.docs.map((doc) => {
                 const docData = doc.data();
                 const parsedDate = parse(docData.tanggal, "d-M-yyyy", new Date());
+                const [hours, minutes] = docData.waktu.split(":");
+                const formattedTime = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
                 return {
                     tanggal: format(parsedDate, "dd-MM-yyyy"),
-                    waktu: docData.waktu,
+                    waktu: formattedTime,
                     volume : docData.volume,
                 };
             });
